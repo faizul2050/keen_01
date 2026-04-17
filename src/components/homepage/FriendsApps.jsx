@@ -3,16 +3,16 @@ import AppCard from "../ui/AppCard";
 
 // Data fetch korar jonno function
 const friendsPromise = async function () {
-  // Ekhane absolute URL-er poriborte local path use kora hoyeche
+
   const res = await fetch(
-    "http://localhost:3000/friends.json", // Local host theke data nibbe
+    "http://localhost:3000/friends.json", 
     {
-      cache: "no-store", // Jate protibar fresh data ase
+      cache: "no-store", 
     }
   );
 
   if (!res.ok) {
-    // Jodi file khuje na pay tahole error handle korbe
+    
     console.error("Failed to fetch friends.json. Make sure it is in the public folder.");
     return [];
   }
@@ -24,7 +24,7 @@ const friendsPromise = async function () {
 const FriendsApps = async () => {
   const apps = await friendsPromise();
 
-  // Console-e check korun apnar local data asche kina
+
   console.log("Friends data loaded from local:", apps);
 
   return (
