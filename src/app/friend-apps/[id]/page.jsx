@@ -5,24 +5,30 @@ import { FaTrashAlt } from "react-icons/fa";
 import { IoIosArchive } from "react-icons/io";
 import { LuBellRing } from "react-icons/lu";
 
-// Data fetching function with no-store to ensure 12 items show up
+// Data fetching function - Static Export-er jonno cache: "no-store" bad dite hobe
 const getFriendsData = async () => {
   const res = await fetch(
-    "https://keen-keeper-a7-project.vercel.app/friends.json",
-    { cache: "no-store" }
+    "https://keen-keeper-a7-project.vercel.app/friends.json"
+    // { cache: "no-store" } -- ETA BAD DITE HOBE
   );
   if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 };
 
+// Static build-er somoy Next.js-ke ID gulo bole dewa
+export async function generateStaticParams() {
+  const apps = await getFriendsData();
+  return apps.map((app) => ({
+    id: app.id.toString(),
+  }));
+}
+
 const FriendsDetailPage = async ({ params }) => {
   const apps = await getFriendsData();
   const { id } = await params;
   
-  // Finding the specific friend by ID
   const app = apps.find((item) => item.id == id);
 
-  // If no friend is found, display a simple message
   if (!app) {
     return <div className="text-center py-20 text-red-500">Friend not found!</div>;
   }
